@@ -17,8 +17,9 @@ td {
 
 .table-head {
   width : 10%;
-  border : 1px blue solid;
-  border-color: blue black black blue;
+  border : 1px black solid;
+  /*  border-color: blue black black blue;
+  */
   border-width: 1px 2px 2px 1px;
   text-align: center;
   margin : auto;
@@ -26,7 +27,8 @@ td {
 }
 
 .table-list {
-  border: 1px green solid;
+  border: 1px  black solid;
+  background-color: rgb(245, 245, 245);
   text-align: left;
   vertical-align:top;
   margin:0;
@@ -34,5 +36,5 @@ td {
 
 ul {
   text-align: left;
-  border : 1px black dotted;
+/*  border : 1px black dotted; */
 }
