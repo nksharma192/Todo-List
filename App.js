@@ -8,16 +8,13 @@ class App extends Component {
     super(props);  
     this.state = {
       listA : ["A","B","C","D","E","F","G","H","I","J","K","L","M"],
-      listB : ["1","2","3","4"]
+      listB : ["1","2","3","4","X","Y","zZ"]
     }
 
     this.changeState = this.changeState.bind(this);
   }  
   
   changeState(newA,newB){
-    console.log("Changing State.... ");
-    console.log(newA);
-    console.log(newB);
     this.setState({ listA : newA ,listB : newB});
   }
 
@@ -38,31 +35,80 @@ class Table extends Component {
   constructor(props){
     super(props);
     this.changeStateC = this.changeStateC.bind(this);
-    this.listA = ["D","Q"];
-    this.listB = ["#","@2"];
+    this.listA = this.props.listA;
+    this.listB = this.props.listB;
   }
 
-  changeStateC(){
-    console.log("Changing State in Child.... ");
-    this.props.compState(this.listA,this.listB)
+  a = this.props.listA;
+  b = this.props.listB;
+  odd="";
+
+  trans(dir,key){
+    if(dir === "l") {
+      var temp = [];
+      var temp2 = [];
+     
+      for(var i=0;i<this.b.length; i++) {
+        if(i !== key) {
+          temp2.push(this.b[i]);
+        }
+        else {
+          this.odd = this.b[i];
+        }
+      }
+
+      temp[0] = this.odd;
+
+      for(var x=0; x<this.a.length; x++) {
+        temp.push(this.a[x]);
+      }
+
+        this.a = temp;
+        this.b = temp2;
+    } 
+
+    else if (dir == "r") 
+    {
+      var temp = [];
+      var temp2 = [];
+      for(var z=0; z<this.a.length; z++) {
+        if(z !== key) {
+          temp.push(this.a[z]);
+        }
+        else {
+          this.odd = this.a[z];
+        }
+      }
+
+      temp2[0] = this.odd;
+
+      for(x=0; x<this.b.length; x++) {
+        temp2.push(this.b[x]);
+      }
+
+        this.a = temp;
+        this.b = temp2;
+    }
+  }
+
+  changeStateC(dir,key) {
+    this.trans(dir,key);
+    this.props.compState(this.a,this.b)
   }
 
   moveOnClick(direction,key) {
     if(direction === "l") {
-      console.log("Moved Left");
-      console.log(key);
-      this.changeStateC();   
+      this.changeStateC(direction,key);   
     } else if (direction === "r") {
-      console.log("Moved Right");
-      console.log(key);
+      this.changeStateC(direction,key);
     }
   } 
 
   getList (a,pos) {
     if(pos === "left-col") {
-      var list = a.map( (var1,i,a) => (<ul key={"left" + i} onClick={() => this.moveOnClick("r","left"+i)}> {var1}</ul>));
+      var list = a.map( (var1,i,a) => (<ul key={"left" + i} onClick={() => this.moveOnClick("r",i)}> {var1}</ul>));
     } else if(pos === "right-col") {
-      var list = a.map( (var1,i,a) => (<ul key={"right" + i} onClick={() => this.moveOnClick("l","right"+i)}> {var1}</ul>));
+       list = a.map( (var1,i,a) => (<ul key={"right" + i} onClick={() => this.moveOnClick("l",i)}> {var1}</ul>));
     }
     return list;
   }
@@ -120,7 +166,175 @@ export default App;
 
 
 
+
+
+
+
+
 /*
+
+----------------------------------------------2----------------------------------------
+class App extends Component {
+
+  constructor(props) {
+    super(props);  
+    this.state = {
+      listA : ["A","B","C","D","E","F","G","H","I","J","K","L","M"],
+      listB : ["1","2","3","4","X","Y","zZ"]
+    }
+
+    this.changeState = this.changeState.bind(this);
+  }  
+  
+  changeState(newA,newB){
+    console.log("Changing State.... ");
+    console.log(newA);
+    console.log(newB);
+    this.setState({ listA : newA ,listB : newB});
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <Table listA={this.state.listA} listB={this.state.listB} compState={this.changeState} /> 
+        <h4> {this.state.listA}</h4>
+        <h4> {this.state.listB}</h4>
+      </div>
+    );
+  }
+}
+
+class Table extends Component {
+  
+  constructor(props){
+    super(props);
+    this.changeStateC = this.changeStateC.bind(this);
+    this.listA = this.props.listA;
+    this.listB = this.props.listB;
+  }
+
+  a = this.props.listA;
+  b = this.props.listB;
+  odd="";
+
+  trans(dir,key){
+  
+    var temp = [];
+    console.log("A : " + this.a);
+    console.log("B : " + this.b);
+    console.log(this.a[2]);
+
+    for(var i=0;i<this.b.length; i++) {
+      if(i != key) {
+        temp.push(this.b[i]);
+        console.log(this.b[i]);
+      }
+      else {
+        this.odd = this.b[i];
+      }
+    }
+
+    var temp2 = [];
+    temp2[0] = this.odd;
+
+    for(var x=0; x<this.a.length; x++) {
+      console.log("THIS IS :" +this.props.listA[i]);
+      temp2.push(this.a[x]);
+      console.log("a[i] : "+ this.a[i]);
+    }
+
+
+    this.b = temp;
+    this.a = temp2;
+    console.log("A : "+ this.a);
+    console.log("Temp : " + temp);
+    console.log("Temp2 : " + temp2);
+    console.log("Odd : " + this.odd);
+    
+  }
+
+  changeStateC(dir,key) {
+    console.log("HHHHH : " + dir + key);
+    console.log("Changing State in Child.... ");
+    this.trans(dir,key);
+    this.props.compState(this.a,this.b)
+  }
+
+  moveOnClick(direction,key) {
+    if(direction === "l") {
+      console.log("Moved Left");
+      console.log(key); 
+      this.changeStateC(direction,key);   
+    } else if (direction === "r") {
+      console.log("Moved Right");
+      console.log(key);
+    }
+  } 
+
+  getList (a,pos) {
+    if(pos === "left-col") {
+      var list = a.map( (var1,i,a) => (<ul key={"left" + i} onClick={() => this.moveOnClick("r",i)}> {var1}</ul>));
+      //var list = a.map( (var1,i,a) => (<ul key={"left" + i} onClick={() => this.moveOnClick("r","left"+i)}> {var1}</ul>));
+    } else if(pos === "right-col") {
+      var list = a.map( (var1,i,a) => (<ul key={"right" + i} onClick={() => this.moveOnClick("l",i)}> {var1}</ul>));
+      //var list = a.map( (var1,i,a) => (<ul key={"right" + i} onClick={() => this.moveOnClick("l","right"+i)}> {var1}</ul>));
+    }
+    return list;
+  }
+
+  render() {
+    return (
+      <div className="table-main">
+        <table>
+          <tbody>
+            <tr> 
+              <td className = "table-head"> <b> Tasks </b> </td>
+              <td className = "table-head"> <b> Completed </b> </td>
+            </tr>
+
+            <tr>
+              <td className = "table-list" > 
+                { this.getList(this.props.listA,"left-col") }
+              </td>
+              <td className = "table-list" > 
+                { this.getList(this.props.listB,"right-col") }
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------ 1 ----------------------------------------------
+
+
+
+
+
+
 
 function lists(s,t) {
 
