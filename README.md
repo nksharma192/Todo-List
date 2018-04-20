@@ -10,3 +10,4 @@ Added Interactivity
 5. Changing state on click (Static change with predefined values).
 6. Created new file for header.
 
+7. Ability to move from one column to other using bind.
