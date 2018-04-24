@@ -1,6 +1,148 @@
 import React, { Component } from 'react';
 import './App.css';
 import Header from './Header.js';
+import Table from './table.js';
+import Insert from './insert.js';
+
+class App extends Component {
+
+  constructor(props) {
+    super(props);  
+    this.state = {
+      listA : ["A","B","C",],
+      listB : ["1","2","3",],
+      text : "",
+    }
+
+    this.changeState = this.changeState.bind(this);
+    this.changeText = this.changeText.bind(this);
+    this.textSubmit = this.textSubmit.bind(this);
+  }  
+  
+  changeState(newA,newB){
+    this.setState({ listA : newA ,listB : newB});
+  }
+
+  changeText(event) {
+    this.setState({text : event.target.value});
+  }
+
+  textSubmit(){
+    this.setState({
+      listA : [this.state.text, ...this.state.listA]
+    });
+    console.log("A : " + this.state.listA);
+    var x = this.state.listA.map((a,i) => console.log("A : " + a + "and Index : " + i));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <Table listA={this.state.listA} listB={this.state.listB} compState={this.changeState} /> 
+        <br/>
+        <br/>
+        <Insert value={this.state.text} s={this.changeText} insertV={this.textSubmit}/>
+        <p> {this.state.text} </p>
+        <p> {this.state.insert} </p>
+    </div>
+    );
+  }
+}
+ 
+export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+-------------------------------------------- 6 --------------------------
+
+class App extends Component {
+
+  constructor(props) {
+    super(props);  
+    this.state = {
+      listA : ["A","B","C",],
+      listB : ["1","2","3",],
+      text : "",
+    }
+
+    this.changeState = this.changeState.bind(this);
+    this.changeText = this.changeText.bind(this);
+    this.textSubmit = this.textSubmit.bind(this);
+  }  
+  
+  changeState(newA,newB){
+    this.setState({ listA : newA ,listB : newB});
+  }
+
+  changeText(event) {
+    this.setState({text : event.target.value});
+  }
+
+  textSubmit(){
+    this.setState({
+      listA : [this.state.text, ...this.state.listA]
+    });
+    console.log("A : " + this.state.listA);
+    var x = this.state.listA.map((a,i) => console.log("A : " + a + "and Index : " + i));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <Table listA={this.state.listA} listB={this.state.listB} compState={this.changeState} /> 
+        <br/>
+        <br/>
+        <Insert value={this.state.text} s={this.changeText} insertV={this.textSubmit}/>
+        <p> {this.state.text} </p>
+        <p> {this.state.insert} </p>
+    </div>
+    );
+  }
+}
+ 
+export default App;
+
+
+
+
+
+------------------------------------------- 5    ---------------------------------------------------------------
+import React, { Component } from 'react';
+import './App.css';
+import Header from './Header.js';
+import Table from './table.js';
 
 class App extends Component {
 
@@ -23,7 +165,57 @@ class App extends Component {
       <div className="App">
         <Header />
         <Table listA={this.state.listA} listB={this.state.listB} compState={this.changeState} /> 
-        <h4> {this.state.listA}</h4>
+        <br/>
+    </div>
+    );
+  }
+}
+ 
+export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------3-----------------------------------------
+class App extends Component {
+
+  constructor(props) {
+    super(props);  
+    this.state = {
+      listA : ["A","B","C","D","E","F","G","H","I","J","K","L","M"],
+      listB : ["1","2","3","4","X","Y","zZ"]
+    }
+
+    this.changeState = this.changeState.bind(this);
+  }  
+  
+  changeState(newA,newB){
+    this.setState({ listA : newA ,listB : newB});
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <Table listA={this.state.listA} listB={this.state.listB} compState={this.changeState} /> 
+        <br/>
+        <button onClick={this.delete}> Delete </button>
         <h4> {this.state.listB}</h4>
       </div>
     );
@@ -35,15 +227,15 @@ class Table extends Component {
   constructor(props){
     super(props);
     this.changeStateC = this.changeStateC.bind(this);
-    this.listA = this.props.listA;
-    this.listB = this.props.listB;
+//    this.listA = this.props.listA;
+//    this.listB = this.props.listB;
   }
 
   a = this.props.listA;
   b = this.props.listB;
   odd="";
 
-  trans(dir,key){
+  trans(dir,key,del){
     if(dir === "l") {
       var temp = [];
       var temp2 = [];
@@ -57,13 +249,18 @@ class Table extends Component {
         }
       }
 
-      temp[0] = this.odd;
-
-      for(var x=0; x<this.a.length; x++) {
-        temp.push(this.a[x]);
-      }
-
+      if(del === 0) {
+      } 
+      else if(del === 1) {
+        temp[0] = this.odd;
+        for(var x=0; x<this.a.length; x++) {
+          temp.push(this.a[x]);
+        }
         this.a = temp;
+  
+      }
+ 
+
         this.b = temp2;
     } 
 
@@ -91,12 +288,12 @@ class Table extends Component {
     }
   }
 
-  changeStateC(dir,key) {
+  changeStateC(dir,key,del) {
     this.trans(dir,key);
     this.props.compState(this.a,this.b)
   }
 
-  moveOnClick(direction,key) {
+  moveOnClick(direction,key,del) {
     if(direction === "l") {
       this.changeStateC(direction,key);   
     } else if (direction === "r") {
@@ -104,11 +301,16 @@ class Table extends Component {
     }
   } 
 
+  v(dir,key,del) {
+    del = 1;
+    this.moveOnClick(dir,key,del);
+  }
+
   getList (a,pos) {
     if(pos === "left-col") {
-      var list = a.map( (var1,i,a) => (<ul key={"left" + i} onClick={() => this.moveOnClick("r",i)}> {var1}</ul>));
+      var list = a.map( (var1,i,a) => (<ul key={"left" + i} onClick={() => this.moveOnClick("r",i,this.props.delete)}> {var1} <button id={i} onClick={()=>this.v("r",i,"del")}> x </button></ul> ));
     } else if(pos === "right-col") {
-       list = a.map( (var1,i,a) => (<ul key={"right" + i} onClick={() => this.moveOnClick("l",i)}> {var1}</ul>));
+       list = a.map( (var1,i,a) => (<ul key={"right" + i} onClick={() => this.moveOnClick("l",i,this.props.delete)}> {var1}</ul>));
     }
     return list;
   }
@@ -147,31 +349,6 @@ export default App;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
 
 ----------------------------------------------2----------------------------------------
 class App extends Component {
