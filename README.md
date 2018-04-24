@@ -11,3 +11,5 @@ Added Interactivity
 6. Created new file for header.
 
 7. Ability to move from one column to other using bind.
+
+8. Added insert item using input text and submit
